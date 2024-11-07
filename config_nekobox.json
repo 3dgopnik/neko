@@ -1,0 +1,160 @@
+{
+    "dns": {
+        "servers": [
+            {
+                "tag": "local-dns",
+                "address": "8.8.8.8",
+                "detour": "direct"
+            },
+            {
+                "tag": "cloudflare-dns",
+                "address": "https://1.1.1.1/dns-query",
+                "detour": "proxy"
+            },
+            {
+                "tag": "backup-dns",
+                "address": "8.8.4.4",
+                "detour": "direct"
+            }
+        ]
+    },
+    "route": {
+        "rule_set": [
+            {
+                "tag": "geosite-category-ads-all",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-ads-all.srs",
+                "download_detour": "proxy",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "geosite-malware",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-malware.srs",
+                "download_detour": "proxy",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "geosite-phishing",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-phishing.srs",
+                "download_detour": "proxy",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "geosite-cryptominers",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-cryptominers.srs",
+                "download_detour": "proxy",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "geoip-malware",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-malware.srs",
+                "download_detour": "proxy",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "geoip-phishing",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-phishing.srs",
+                "download_detour": "proxy",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "antizapret",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://github.com/savely-krasovsky/antizapret-sing-box/releases/latest/download/antizapret.srs",
+                "download_detour": "proxy",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "refilter_domains",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs",
+                "download_detour": "proxy",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "refilter_ipsum",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-ip-refilter_ipsum.srs",
+                "download_detour": "proxy",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "geoip-ru",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://cdn.jsdelivr.net/gh/SagerNet/sing-geoip@rule-set/geoip-ru.srs",
+                "download_detour": "proxy",
+                "update_interval": "1d"
+            }
+        ],
+        "rules": [
+            {
+                "ip_is_private": true,
+                "outbound": "direct"
+            },
+            {
+                "rule_set": [
+                    "geosite-category-ads-all",
+                    "geosite-malware",
+                    "geosite-phishing",
+                    "geosite-cryptominers",
+                    "geoip-malware",
+                    "geoip-phishing"
+                ],
+                "outbound": "block"
+            },
+            {
+                "rule_set": [
+                    "refilter_domains",
+                    "refilter_ipsum",
+                    "antizapret"
+                ],
+                "outbound": "proxy"
+            },
+            {
+                "rule_set": [
+                    "geoip-ru"
+                ],
+                "outbound": "direct"
+            },
+            {
+                "domain_suffix": [
+                    "vk.com",
+                    "civitai.com",
+                    "huggingface.co",
+                    "stability.ai",
+                    "modelscope.cn",
+                    "runwayml.com"
+                ],
+                "outbound": "direct"
+            },
+            {
+                "process_name": [
+                    "3dsmax.exe",
+                    "LicenseManager.exe",
+                    "Telegram.exe"
+                ],
+                "outbound": "direct"
+            }
+        ]
+    },
+    "experimental": {
+        "cache_file": {
+            "enabled": true
+        }
+    }
+}
